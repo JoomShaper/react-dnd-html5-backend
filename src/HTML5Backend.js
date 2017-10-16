@@ -48,6 +48,9 @@ export default class HTML5Backend {
       throw new Error('Cannot have two HTML5 backends at the same time.');
     }
     this.window.__isReactDndBackendSetUp = true; // eslint-disable-line no-underscore-dangle
+    document.getElementById('sp-pagebuilder-view').addEventListener('load', function(){
+      this.addEventListeners(this.window.frames['sp-pagebuilder-view'].window);
+    }.bind(this))
     this.addEventListeners(this.window);
   }
 
@@ -57,6 +60,9 @@ export default class HTML5Backend {
     }
 
     this.window.__isReactDndBackendSetUp = false; // eslint-disable-line no-underscore-dangle
+    document.getElementById('sp-pagebuilder-view').addEventListener('load', function(){
+      this.removeEventListeners(this.window.frames['sp-pagebuilder-view'].window);
+    }.bind(this))
     this.removeEventListeners(this.window);
     this.clearCurrentDragSourceNode();
   }
